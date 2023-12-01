@@ -1,15 +1,16 @@
 package cmd
 
 import (
-	"fmt"
-	"github.com/spf13/cobra"
 	"embed"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 
-	"github.com/CeoFred/godigger/cmd/utils"
+	"github.com/spf13/cobra"
+
+	"github.com/CeoFred/nturu/cmd/utils"
 )
 
 //go:embed templates/*

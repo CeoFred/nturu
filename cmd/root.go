@@ -8,9 +8,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "godigger",
-	Short: "godigger is a microservice boilerplate generator using go.",
-	Long: `godigger is a microservice boilerplate generator using go.`,
+	Use:   "nturu",
+	Short: "nturu is a microservice boilerplate generator using go.",
+	Long:  `nturu is a microservice boilerplate generator using go.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Do Stuff Here
 		fmt.Println("We just go started!")

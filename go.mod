@@ -1,4 +1,4 @@
-module github.com/CeoFred/godigger
+module github.com/CeoFred/nturu
 
 go 1.21.2
 

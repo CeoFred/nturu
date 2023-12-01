@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/CeoFred/godigger/cmd"
+	"github.com/CeoFred/nturu/cmd"
 )
+
 func main() {
 
 	cmd.Execute()

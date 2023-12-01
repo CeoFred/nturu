@@ -29,11 +29,11 @@ var generateCmd = &cobra.Command{
 		var ModulePath string
 		var AppName string
 
-		fmt.Println("\033[1;31m What is your name?\033[0m")
+		fmt.Println("\033[1;31m What is your application name?\033[0m")
 		fmt.Scanln(&AppName)
 		clearScreen()
 
-		fmt.Println("\033[1;31m What is the module path?\033[0m")
+		fmt.Println("\033[1;31m What is your preferred module path?\033[0m")
 		fmt.Scanln(&ModulePath)
 		clearScreen()
 

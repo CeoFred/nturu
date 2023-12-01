@@ -1,14 +1,12 @@
-# Nturu CLI 
+# Ntụrụ CLI (IheNtụrụ)
 
-![nturu Logo](link-to-your-logo.png)
-
-nturu is a powerful CLI tool designed to simplify the generation of microservices for your next Go lang application. With nturu, you can quickly set up the foundational structure for your microservices architecture, allowing you to focus on building and scaling your services.
+Ntụrụ is a powerful CLI tool designed to simplify the generation of microservices for your next Go lang application. With Ntụrụ, you can quickly set up the foundational structure for your microservices architecture, allowing you to focus on building and scaling your services.
 
 ## Features
 
 - **Microservice Boilerplate:** Generate a boilerplate for your microservices, including essential directory structure and configuration files.
 - **Custom Templates:** Easily customize templates to suit your specific microservices requirements.
-- **Efficient and Fast:** nturu is designed to be fast and efficient, making it easy to kickstart your microservices projects.
+- **Efficient and Fast:** Ntụrụ is designed to be fast and efficient, making it easy to kickstart your microservices projects.
 
 ## Installation
 
@@ -25,7 +23,7 @@ go get -u github.com/CeoFred/nturu
 Download the latest release binary for your platform from the [GitHub Releases](https://github.com/CeoFred/nturu/releases) page. Make it executable and move it to a directory in your PATH.
 
 ```bash
-curl -LJO https://github.com/CeoFred/nturu/releases/download/v1.0.1/nturu
+curl -LJO https://github.com/CeoFred/nturu/releases/download/v1.0.2/nturu
 chmod +x nturu
 mv nturu /usr/local/bin/nturu
 ```

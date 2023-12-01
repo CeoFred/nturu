@@ -61,12 +61,37 @@ var generateCmd = &cobra.Command{
 			return
 		}
 
-		err = utils.CreateGoModFile(destinationFolder, ModulePath)
+		fmt.Println("----------------------------------------------------------------")
+
+		// err = utils.CreateGoModFile(destinationFolder, ModulePath)
+		// if err != nil {
+		// 	fmt.Println("Error:", err)
+		// 	deleteFolder(destinationFolder)
+		// 	return
+		// }
+
+		zippedTemplate := filepath.Join(destinationFolder, "default.zip")
+
+		err = utils.UnzipFile(zippedTemplate)
 		if err != nil {
 			fmt.Println("Error:", err)
 			deleteFolder(destinationFolder)
 			return
 		}
+
+		fmt.Println("Extracting template..")
+
+
+	
+		err = os.Remove(zippedTemplate)
+		if err != nil {
+			fmt.Println("Error:", err)
+			deleteFolder(destinationFolder)
+			return
+		}
+		fmt.Println("\033[1;31mDone! Template generated successfully. Say Hi to @codemon_")
+
+		
 	},
 }
 

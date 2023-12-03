@@ -63,13 +63,6 @@ var generateCmd = &cobra.Command{
 
 		fmt.Println("----------------------------------------------------------------")
 
-		// err = utils.CreateGoModFile(destinationFolder, ModulePath)
-		// if err != nil {
-		// 	fmt.Println("Error:", err)
-		// 	deleteFolder(destinationFolder)
-		// 	return
-		// }
-
 		zippedTemplate := filepath.Join(destinationFolder, "default.zip")
 
 		err = utils.UnzipFile(zippedTemplate)
@@ -81,14 +74,14 @@ var generateCmd = &cobra.Command{
 
 		fmt.Println("Extracting template..")
 
-
-	
 		err = os.Remove(zippedTemplate)
 		if err != nil {
 			fmt.Println("Error:", err)
 			deleteFolder(destinationFolder)
 			return
 		}
+
+		utils.ReplaceInDirectory(destinationFolder,"github.com/nturu/microservice-template",ModulePath)
 		fmt.Println("\033[1;31mDone! Template generated successfully. Say Hi to @codemon_")
 
 		

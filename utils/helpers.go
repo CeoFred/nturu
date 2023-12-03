@@ -1,14 +1,16 @@
 package utils
+
 import (
 	"fmt"
+	"io/ioutil"
 	"os/exec"
+	"strings"
 
 	"archive/zip"
 	"io"
 	"os"
 	"path/filepath"
 )
-
 
 func CreateGoModFile(dst string, moduleName string) error {
 	cmd := exec.Command("go", "mod", "init", moduleName)
@@ -108,4 +110,46 @@ func copyFile(src, dst string) error {
 
 	_, err = io.Copy(destFile, sourceFile)
 	return err
+}
+
+func ReplaceInDirectory(directoryPath, searchPattern, replaceWith string) error {
+	err := filepath.Walk(directoryPath, func(filePath string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// Skip directories
+		if info.IsDir() {
+			return nil
+		}
+
+		// Replace pattern in file
+		err = replaceInFile(filePath, searchPattern, replaceWith)
+		if err != nil {
+			fmt.Printf("Error replacing in file %s: %v\n", filePath, err)
+		}
+
+		return nil
+	})
+
+	return err
+}
+
+func replaceInFile(filePath, searchPattern, replaceWith string) error {
+	// Read the file content
+	content, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return err
+	}
+
+	// Replace the search pattern with the new value
+	newContent := strings.Replace(string(content), searchPattern, replaceWith, -1)
+
+	// Write the modified content back to the file
+	err = ioutil.WriteFile(filePath, []byte(newContent), os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

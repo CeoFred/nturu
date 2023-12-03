@@ -23,10 +23,12 @@ go get -u github.com/CeoFred/nturu
 Download the latest release binary for your platform from the [GitHub Releases](https://github.com/CeoFred/nturu/releases) page. Make it executable and move it to a directory in your PATH.
 
 ```bash
-curl -LJO https://github.com/CeoFred/nturu/releases/download/v1.0.2/nturu
+curl -LJO https://github.com/CeoFred/nturu/releases/download/vX.Y.Z/nturu
 chmod +x nturu
 mv nturu /usr/local/bin/nturu
 ```
+
+Replace X.Y.Z with any version of nturu
 
 ## Usage
 

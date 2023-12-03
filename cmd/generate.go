@@ -10,7 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/CeoFred/nturu/cmd/utils"
+	"github.com/CeoFred/nturu/utils"
 )
 
 //go:embed templates/*

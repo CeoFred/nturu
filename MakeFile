@@ -1,0 +1,27 @@
+# Makefile for building, installing, testing, and uninstalling your CLI tool
+
+# Variables
+BINARY_NAME = nturu
+INSTALL_PATH = /usr/local/bin
+
+# Targets
+.PHONY: all build install test uninstall
+
+all: build
+
+build:
+	go build -o $(BINARY_NAME)
+
+install: build
+	sudo cp $(BINARY_NAME) $(INSTALL_PATH)
+
+test: install
+	@echo "Running tests..."
+	$(BINARY_NAME) generate
+	@echo "Tests passed successfully."
+
+uninstall:
+	sudo rm -f $(INSTALL_PATH)/$(BINARY_NAME)
+
+clean:
+	rm -f $(BINARY_NAME)

@@ -21,6 +21,8 @@ test_generate() {
     echo "Running tests... 2"
       ./"$BINARY_NAME" generate -framework fiber
     echo "Tests passed successfully."
+    clean
+    uninstall
 }
 
 uninstall() {

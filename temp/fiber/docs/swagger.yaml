@@ -1,0 +1,383 @@
+basePath: /api/v1
+definitions:
+  handlers.AuthenticateUser:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  handlers.ErrorResponse:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handlers.FileUploadResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handlers.InputCreateUser:
+    properties:
+      account_type:
+        type: string
+      business_name:
+        type: string
+      email:
+        type: string
+      manager:
+        type: string
+      password:
+        type: string
+    required:
+    - account_type
+    - business_name
+    - email
+    - manager
+    - password
+    type: object
+  handlers.LoginResponse:
+    properties:
+      data:
+        $ref: '#/definitions/handlers.LoginResponseData'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handlers.LoginResponseData:
+    properties:
+      jwt:
+        type: string
+    type: object
+  handlers.RegisterResponse:
+    properties:
+      data:
+        $ref: '#/definitions/handlers.RegisterResponseData'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handlers.RegisterResponseData:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+    type: object
+  handlers.ResetPassword:
+    properties:
+      confirm_password:
+        type: string
+      password:
+        type: string
+    required:
+    - confirm_password
+    - password
+    type: object
+  handlers.SuccessResponse:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handlers.UpdateUserProfileInput:
+    properties:
+      phone_number:
+        type: string
+    required:
+    - phone_number
+    type: object
+  handlers.UserProfile:
+    properties:
+      account_type:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/models.AccountPermission'
+      status:
+        type: string
+      userid:
+        type: string
+    type: object
+  models.AccountPermission:
+    enum:
+    - user
+    - admin
+    type: string
+    x-enum-varnames:
+    - UserRole
+    - AdminRole
+host: localhost:3009
+info:
+  contact:
+    email: fiber@swagger.io
+    name: Your Name
+  description: Swagger API documentation for goFiber API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: goFiber App
+  version: "1.0"
+paths:
+  /auth/password-reset/new-password:
+    post:
+      consumes:
+      - application/json
+      description: Resets the user's password using a JWT token.
+      parameters:
+      - description: New password
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ResetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password reset successful
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Reset password
+      tags:
+      - Authentication
+  /auth/password-reset/send-otp:
+    get:
+      consumes:
+      - application/json
+      description: Sends an OTP to the provided email address for password reset.
+      parameters:
+      - description: User's email address
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OTP sent successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Send OTP for password reset
+      tags:
+      - Authentication
+  /auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a user by validating their email and password.
+      parameters:
+      - description: User credentials (email and password)
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.AuthenticateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Authenticate User
+      tags:
+      - Authentication
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account with the provided information
+      parameters:
+      - description: User data to create an account
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.InputCreateUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Register a new user
+      tags:
+      - Authentication
+  /auth/verify-otp/{email}/{otp}:
+    post:
+      consumes:
+      - application/json
+      description: Verifies the provided OTP and generates a JWT token for password
+        reset.
+      parameters:
+      - description: User's email address
+        in: path
+        name: email
+        required: true
+        type: string
+      - description: One-time password (OTP)
+        in: path
+        name: otp
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Verify OTP and generate JWT token
+      tags:
+      - Authentication
+  /user:
+    put:
+      consumes:
+      - application/json
+      description: Updates some details about the user
+      parameters:
+      - description: update user profile
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateUserProfileInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user profile
+      tags:
+      - User
+  /user/file-upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Handles file uploads
+      parameters:
+      - description: File to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.FileUploadResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Upload a file
+      tags:
+      - User
+  /user/logo:
+    post:
+      consumes:
+      - application/json
+      description: Company logo upload
+      parameters:
+      - description: Upload a company logo
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Company Logo Upload
+      tags:
+      - User
+  /user/profile:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the profile information of the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UserProfile'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user profile
+      tags:
+      - User
+swagger: "2.0"

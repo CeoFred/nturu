@@ -2,11 +2,13 @@ package cmd
 
 import (
 	"embed"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/spf13/cobra"
 
@@ -15,9 +17,13 @@ import (
 
 //go:embed templates/*
 var embededTemplates embed.FS
+var Framework string
+var Verbose bool
 
 func init() {
+	generateCmd.Flags().StringVarP(&Framework, "framework", "f", "default", "Go lang Framework to use")
 	rootCmd.AddCommand(generateCmd)
+	rootCmd.PersistentFlags().BoolVarP(&Verbose, "generate", "g", false, "verbose output")
 }
 
 var generateCmd = &cobra.Command{
@@ -25,6 +31,27 @@ var generateCmd = &cobra.Command{
 	Short: "Creates a new microservice using the default boilerplate.",
 	Long:  `This generates a new microservice using the default boilerplate.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		var framework string
+
+		if len(args) > 0 {
+			framework = args[0]
+		}
+
+		if framework == "" {
+			framework = "default"
+		}
+
+		var availableTemplates []string
+
+		availableTemplates = append(availableTemplates, "fiber", "default")
+
+		if !isTemplateAvailable(framework, availableTemplates) {
+			fmt.Println("Error:", "Template not available")
+			os.Exit(1)
+		}
+		clearScreen()
+
 		// ask for app name
 		var ModulePath string
 		var AppName string
@@ -51,10 +78,10 @@ var generateCmd = &cobra.Command{
 			return
 		}
 
-		sourceFolder := filepath.Join(currentDir, "templates")
+		sourceFolder := filepath.Join(currentDir, "templates/"+framework)
 		destinationFolder := filepath.Join(currentDir, AppName)
 
-		err = copyTemplates(sourceFolder, destinationFolder)
+		err = copyTemplates(sourceFolder, destinationFolder, framework)
 		if err != nil {
 			fmt.Println("Error:", err)
 			deleteFolder(destinationFolder)
@@ -63,7 +90,7 @@ var generateCmd = &cobra.Command{
 
 		fmt.Println("----------------------------------------------------------------")
 
-		zippedTemplate := filepath.Join(destinationFolder, "default.zip")
+		zippedTemplate := filepath.Join(destinationFolder, framework+".zip")
 
 		err = utils.UnzipFile(zippedTemplate)
 		if err != nil {
@@ -81,11 +108,19 @@ var generateCmd = &cobra.Command{
 			return
 		}
 
-		utils.ReplaceInDirectory(destinationFolder,"github.com/nturu/microservice-template",ModulePath)
+		utils.ReplaceInDirectory(destinationFolder, "github.com/nturu/microservice-template", ModulePath)
 		fmt.Println("\033[1;31mDone! Template generated successfully. Say Hi to @codemon_")
 
-		
 	},
+}
+
+func isTemplateAvailable(template string, availableTemplates []string) bool {
+	for _, t := range availableTemplates {
+		if t == template {
+			return true
+		}
+	}
+	return false
 }
 
 func deleteFolder(destinationFolder string) {
@@ -116,20 +151,30 @@ func clearScreen() {
 	}
 }
 
-func copyTemplates(src, dst string) error {
-
-	templates, err := embededTemplates.ReadDir("templates")
+func copyTemplates(src, dst, framework string) error {
+	templates, err := embededTemplates.ReadDir(filepath.Join("templates", framework))
 	if err != nil {
-		fmt.Println("failed to read templates")
+		fmt.Printf("failed to read templates for framework %s\n", framework)
 		return err
 	}
 
 	for _, entry := range templates {
-		srcPath := filepath.Join("templates", entry.Name())
+		srcPath := filepath.Join("templates", framework, entry.Name())
 		destPath := filepath.Join(dst, entry.Name())
+
+		// Ensure that the entry is within the specified framework directory
+		if !strings.HasPrefix(filepath.Clean(destPath), filepath.Clean(dst)) {
+			return errors.New("attempted to copy files outside of the specified framework directory")
+		}
 
 		if entry.IsDir() {
 			err := os.MkdirAll(destPath, os.ModePerm)
+			if err != nil {
+				return err
+			}
+
+			// Recursively copy contents of subdirectories
+			err = copyTemplates(srcPath, destPath, framework)
 			if err != nil {
 				return err
 			}

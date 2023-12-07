@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mena+Grotesk:wght@300;400;500;600;700&display=swap');
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Mena Grotesk', sans-serif;
+            background-color: #f2f2f2;
+            color: #242D32;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            max-width: 150px;
+        }
+
+        .header {
+            color: #00ED85;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .message {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .feature-list {
+            margin-bottom: 10px;
+        }
+
+        .feature-list li {
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            font-size: 14px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      
+        <h1 class="header">Welcome to NturuCLI, where magic meets knowledge!</h1>
+        <p class="message">Dear {{.Name}},</p>
+        <p class="message">Step into the enchanting world of NturuCLI, where learning becomes an adventure and quizzes come alive!</p>
+        <p class="message">NturuCLI is a real-time quiz application designed to ignite your imagination, challenge your wits, and bring joy to learning. Whether you're a student, educator, or trivia enthusiast, get ready to embark on an extraordinary journey of knowledge.</p>
+        <p class="message">As a member of NturuCLI, you'll enjoy a variety of magical features:</p>
+        <ul class="features">
+            <li class="feature-list">🌟 Engaging and Interactive Quizzes: Participate in captivating quizzes that keep you on the edge of your seat.</li>
+            <li class="feature-list">🎯 Real-time Multiplayer Mode: Challenge your friends, classmates, or colleagues in live multiplayer battles of knowledge.</li>
+            <li class="feature-list">✨ Custom Quiz Creation: Unleash your creativity by designing your own quizzes and sharing them with the NturuCLI community.</li>
+            <li class="feature-list">🏆 Leaderboards and Achievements: Earn badges, climb the leaderboards, and bask in the glory of your quiz mastery.</li>
+        </ul>
+        <p class="message">Get ready to have fun while expanding your knowledge across a wide range of subjects. We're thrilled to have you as part of our magical community!</p>
+        <p class="footer">If you have any questions or need assistance, feel free to reach out to our support team. We're here to make your NturuCLI experience truly extraordinary.</p>
+        <p class="footer">Magical regards,<br>The NturuCLI Team</p>
+    </div>
+</body>
+</html>

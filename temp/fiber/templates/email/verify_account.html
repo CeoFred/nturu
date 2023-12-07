@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Mena+Grotesk:wght@300;400;500;600;700&display=swap");
+
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Mena Grotesk", sans-serif;
+        background-color: #f2f2f2;
+        color: #242d32;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .logo {
+        display: block;
+        margin: 0 auto;
+        max-width: 150px;
+      }
+
+      .header {
+        color: #00ed85;
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+
+      .message {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+
+      .otp-container {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .otp {
+        font-size: 18px;
+        font-weight: bold;
+        background-color: #00ed85;
+        text-align: center;
+        color: #ffffff;
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      .footer {
+        font-size: 14px;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="header">Welcome to NturuCLI!</h1>
+      <p class="message">
+        Thank you for signing up with us. To complete your registration, please
+        use the otp below to verify your account:
+      </p>
+      <div class="otp-container">
+        <p class="otp">
+          {{.Otp}}
+        </p>
+      </div>
+      <p class="message">
+        Please ignore this email if you did not sign up for an account. If you
+        have any questions or need assistance, feel free to contact our support
+        team support@NturuCLIgroup.com
+      </p>
+      <p class="footer">Best regards,<br />NturuCLI Team</p>
+    </div>
+  </body>
+</html>

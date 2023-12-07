@@ -17,6 +17,9 @@ test_generate() {
     install
     echo "Running tests..."
     ./"$BINARY_NAME" generate
+
+    echo "Running tests... 2"
+      ./"$BINARY_NAME" generate -framework fiber
     echo "Tests passed successfully."
 }
 

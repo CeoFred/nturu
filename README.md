@@ -42,11 +42,18 @@ This command generates a boilerplate from the input you would enter.
 
 ### Customize Templates
 
-You can customize templates by modifying the template files in the `templates` directory. Run the generation command with the `-t` flag to use your custom templates:
+You can now use custom templates based on Go lang frameworks. Run the generation command with the `-framework` flag to use custom templates:
 
 ```bash
-nturu generate  -t path/to/custom/templates 
+nturu generate -framework fiber 
 ```
+
+### Available Templates
+
+| Template Name | Description                               |
+|---------------|-------------------------------------------|
+| fiber         | Microservice template using the Fiber framework |
+| default       | Default microservice template using the bun router            |
 
 For more detailed information, run:
 
@@ -61,5 +68,3 @@ Contributions are welcome! Please read the [Contributing Guidelines](CONTRIBUTIN
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----

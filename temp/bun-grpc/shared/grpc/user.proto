@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/CeoFred/nturu-bun-grpc";
+
+service User {
+  rpc GetProfile(UserID) returns (UserProfile) {}
+}
+
+message UserProfile {
+  string firstName = 1;
+  string lastName = 2;
+}
+
+message UserID {
+  string ID = 1;
+}

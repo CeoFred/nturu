@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  
+  user-service:
+    image: cosmtrek/air
+    container_name: user-service
+    restart: on-failure
+    env_file: 
+      - .env
+    volumes:
+      - '../user-service:/user-service'
+      - '~/.ssh/id_rsa:/root/.ssh/id_rsa'
+      - '~/.ssh/known_hosts:/root/.ssh/known_hosts'
+      - '~/.gitconfig:/root/.gitconfig'
+    working_dir: '/user-service'
+    networks:
+      - nturuNetwork
+
+networks:
+  nturuNetwork:
+    driver: bridge

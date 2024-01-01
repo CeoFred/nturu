@@ -17,6 +17,21 @@ services:
     networks:
       - nturuNetwork
 
+  user-profile-service:
+    image: cosmtrek/air
+    container_name: user-profile-service
+    restart: on-failure
+    env_file: 
+      - .env
+    volumes:
+      - '../user-profile-service:/user-profile-service'
+      - '~/.ssh/id_rsa:/root/.ssh/id_rsa'
+      - '~/.ssh/known_hosts:/root/.ssh/known_hosts'
+      - '~/.gitconfig:/root/.gitconfig'
+    working_dir: '/user-profile-service'
+    networks:
+      - nturuNetwork
+      
 networks:
   nturuNetwork:
     driver: bridge
